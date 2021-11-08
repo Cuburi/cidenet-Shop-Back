@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Seccion {
+public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -17,9 +17,9 @@ public class Seccion {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "seccion", fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Producto> productos = new HashSet<>();
+    @OneToMany(mappedBy = "size", fetch = FetchType.EAGER)
+    private Set<DetailSize> detailSizes = new HashSet<>();
 
     public long getId() {
         return id;
@@ -38,11 +38,11 @@ public class Seccion {
         this.name = name;
     }
 
-    public Set<Producto> getProductos() {
-        return productos;
+    public Set<DetailSize> getDetailSizes() {
+        return detailSizes;
     }
 
-    public void setProductos(Set<Producto> productos) {
-        this.productos = productos;
+    public void setDetailSizes(Set<DetailSize> detailSizes) {
+        this.detailSizes = detailSizes;
     }
 }

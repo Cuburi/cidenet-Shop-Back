@@ -1,7 +1,7 @@
 package com.CidenetShop.CidenetShopBackend.controller;
 
-import com.CidenetShop.CidenetShopBackend.model.Detalle_Talla;
-import com.CidenetShop.CidenetShopBackend.service.Detalle_TallService;
+import com.CidenetShop.CidenetShopBackend.model.Section;
+import com.CidenetShop.CidenetShopBackend.service.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tallasStock")
-public class Detalle_TallaController {
+@RequestMapping("/section")
+public class SectionController {
+
     @Autowired
-    Detalle_TallService detalle_tallService;
+    SectionService sectionService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<Detalle_Talla>> list(){
-        List<Detalle_Talla> listDetalle_Talla = detalle_tallService.findAll();
-        return new ResponseEntity<List<Detalle_Talla>>(listDetalle_Talla, HttpStatus.OK);
+    public ResponseEntity<List<Section>>list(){
+        List<Section> listSection = sectionService.findAll();
+        return new ResponseEntity<List<Section>>(listSection, HttpStatus.OK);
     }
 }

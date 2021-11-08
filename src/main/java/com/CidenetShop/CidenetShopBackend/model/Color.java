@@ -1,7 +1,6 @@
 package com.CidenetShop.CidenetShopBackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -16,12 +15,12 @@ public class Color {
 
     @NonNull
     @Column(unique = true)
-    private String nombre;
+    private String name;
 
 
     @OneToMany(mappedBy = "color", fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Producto> productos = new HashSet<>();
+    private Set<Product> products = new HashSet<>();
 
     public long getId() {
         return id;
@@ -32,19 +31,19 @@ public class Color {
     }
 
     @NonNull
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(@NonNull String nombre) {
-        this.nombre = nombre;
+    public void setName(@NonNull String name) {
+        this.name = name;
     }
 
-    public Set<Producto> getProductos() {
-        return productos;
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public void setProductos(Set<Producto> productos) {
-        this.productos = productos;
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }
