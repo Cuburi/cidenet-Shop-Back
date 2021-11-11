@@ -22,7 +22,8 @@ public class Product {
     @NonNull
     private float salePrice;
 
-    private String image;
+    @Lob
+    private byte[] image;
 
     @NonNull
     private String brand;
@@ -67,13 +68,7 @@ public class Product {
         this.salePrice = precioVenta;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     @NonNull
     public String getBrand() {

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/color")
-//@CrossOrigin(origins = "http://)
+@CrossOrigin(origins = "http://localhost:3000")
 public class ColorController {
     @Autowired
     ColorService colorService;
