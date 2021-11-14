@@ -25,11 +25,13 @@ public class Product {
     @Lob
     private byte[] image;
 
-    @NonNull
-    private String brand;
 
     @NonNull
     private String description;
+
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties("products")
+    private Brand brand;
 
     @ManyToOne(optional = false)
     @JsonIgnoreProperties("products")
@@ -69,14 +71,20 @@ public class Product {
     }
 
 
+    public byte[] getImage() {
+        return image;
+    }
 
-    @NonNull
-    public String getBrand() {
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public Brand getBrand() {
         return brand;
     }
 
-    public void setBrand(@NonNull String marca) {
-        this.brand = marca;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     @NonNull
