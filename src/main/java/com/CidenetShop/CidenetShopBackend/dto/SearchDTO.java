@@ -1,10 +1,11 @@
 package com.CidenetShop.CidenetShopBackend.dto;
 
 public class SearchDTO {
-    //Las cadenas desde el front al back
+
     private String color;
     private String description;
     private String brand;
+    private String section;
 
     public String getColor() {
         return color;
@@ -28,5 +29,13 @@ public class SearchDTO {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

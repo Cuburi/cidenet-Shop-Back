@@ -1,8 +1,9 @@
 package com.CidenetShop.CidenetShopBackend.service;
 
 import com.CidenetShop.CidenetShopBackend.criteria.ProductCriteria;
-import com.CidenetShop.CidenetShopBackend.model.Brand_;
 import com.CidenetShop.CidenetShopBackend.model.Product;
+import com.CidenetShop.CidenetShopBackend.model.Brand_;
+import com.CidenetShop.CidenetShopBackend.model.Section_;
 import com.CidenetShop.CidenetShopBackend.model.Product_;
 import com.CidenetShop.CidenetShopBackend.model.Color_;
 import com.CidenetShop.CidenetShopBackend.repository.ProductRepository;
@@ -42,10 +43,14 @@ public class ProductService extends QueryService <Product> {
                         specification.and(buildSpecification(criteria.getBrand(),root -> root.join(Product_.brand, JoinType.LEFT).get(Brand_.name)));
             }
 
-
             if(criteria.getColor() != null){
                 specification =
                         specification.and(buildSpecification(criteria.getColor(),root -> root.join(Product_.color, JoinType.LEFT).get(Color_.name)));
+            }
+
+            if(criteria.getSection() != null){
+                specification =
+                        specification.and(buildSpecification(criteria.getSection(),root -> root.join(Product_.section, JoinType.LEFT).get(Section_.name)));
             }
         }
         return specification;

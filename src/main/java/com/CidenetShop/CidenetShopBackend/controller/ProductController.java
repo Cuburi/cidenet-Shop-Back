@@ -46,6 +46,11 @@ public class ProductController {
                 filter.setContains(searchDTO.getColor());
                 productCriteria.setColor(filter);
             }
+            if(!StringUtils.isBlank(searchDTO.getSection())){
+                StringFilter filter = new StringFilter();
+                filter.setContains(searchDTO.getSection());
+                productCriteria.setSection(filter);
+            }
         }
         return productCriteria;
     }
