@@ -1,6 +1,6 @@
 package com.CidenetShop.CidenetShopBackend.security.model;
 
-import com.CidenetShop.CidenetShopBackend.security.enums.RolName;
+import com.CidenetShop.CidenetShopBackend.security.enums.RoleName;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -12,12 +12,12 @@ public class Role {
     private Long id;
     @NonNull
     @Enumerated(EnumType.STRING)
-    private RolName rolName;
+    private RoleName rolName;
 
     public Role() {
     }
 
-    public Role(Long id, @NonNull RolName rolName) {
+    public Role(Long id, @NonNull RoleName rolName) {
         this.id = id;
         this.rolName = rolName;
     }
@@ -31,11 +31,11 @@ public class Role {
     }
 
     @NonNull
-    public RolName getRolName() {
+    public RoleName getRolName() {
         return rolName;
     }
 
-    public void setRolName(@NonNull RolName rolName) {
+    public void setRolName(@NonNull RoleName rolName) {
         this.rolName = rolName;
     }
 }

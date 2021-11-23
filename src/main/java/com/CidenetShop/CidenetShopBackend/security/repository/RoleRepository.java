@@ -1,4 +1,11 @@
 package com.CidenetShop.CidenetShopBackend.security.repository;
 
-public interface RoleRepository {
+import com.CidenetShop.CidenetShopBackend.security.enums.RoleName;
+import com.CidenetShop.CidenetShopBackend.security.model.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface RoleRepository extends JpaRepository<Role,Long> {
+    Optional<Role> findByRoleName(RoleName roleName);
 }
