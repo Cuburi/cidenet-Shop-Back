@@ -1,5 +1,5 @@
 package com.CidenetShop.CidenetShopBackend.security.enums;
 
 public enum RoleName {
-    ROLEADMIN, ROLEUSER
+    ROLE_ADMIN, ROLE_USER
 }
