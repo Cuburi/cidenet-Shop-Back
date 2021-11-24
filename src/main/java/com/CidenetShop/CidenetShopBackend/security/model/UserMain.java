@@ -1,11 +1,9 @@
 package com.CidenetShop.CidenetShopBackend.security.model;
 
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +31,7 @@ public class UserMain implements UserDetails {
 
     public static UserMain build(User user){
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
-                new SimpleGrantedAuthority(role.getRolName().name())).collect(Collectors.toList());
+                new SimpleGrantedAuthority(role.getRoleName().name())).collect(Collectors.toList());
         return new UserMain(user.getName(), user.getEmail(), user.getPassword(), user.getTypeId(), user.getDocument(), user.getAddress(), user.getPhone(), authorities);
     }
 

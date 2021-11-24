@@ -12,14 +12,13 @@ public class Role {
     private Long id;
     @NonNull
     @Enumerated(EnumType.STRING)
-    private RoleName rolName;
+    private RoleName roleName;
 
     public Role() {
     }
 
-    public Role(Long id, @NonNull RoleName rolName) {
-        this.id = id;
-        this.rolName = rolName;
+    public Role(@NonNull RoleName roleName) {
+        this.roleName = roleName;
     }
 
     public Long getId() {
@@ -31,11 +30,11 @@ public class Role {
     }
 
     @NonNull
-    public RoleName getRolName() {
-        return rolName;
+    public RoleName getRoleName() {
+        return roleName;
     }
 
-    public void setRolName(@NonNull RoleName rolName) {
-        this.rolName = rolName;
+    public void setRoleName(@NonNull RoleName roleName) {
+        this.roleName = roleName;
     }
 }

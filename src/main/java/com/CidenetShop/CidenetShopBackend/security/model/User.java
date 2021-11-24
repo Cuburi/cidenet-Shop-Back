@@ -17,7 +17,7 @@ public class User {
     @Column(unique = true)
     private String email;
     @NonNull
-    private String password;
+        private String password;
     @NonNull
     private String typeId;
     @NonNull
@@ -27,7 +27,7 @@ public class User {
     @NonNull
     private String phone;
     @NonNull
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -36,7 +36,12 @@ public class User {
     public User() {
     }
 
-    public User(@NonNull String name, @NonNull String email, @NonNull String password, @NonNull String typeId, @NonNull String document, @NonNull String address, @NonNull String phone) {
+    public User(@NonNull String name,
+                @NonNull String email,
+                @NonNull String password,
+                @NonNull String typeId, @NonNull String document,
+                @NonNull String address,
+                @NonNull String phone) {
         this.name = name;
         this.email = email;
         this.password = password;
