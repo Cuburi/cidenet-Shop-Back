@@ -16,4 +16,5 @@ public class SectionService {
     public List<Section> findAll(){
         return sectionRepository.findAll();
     }
+
 }
