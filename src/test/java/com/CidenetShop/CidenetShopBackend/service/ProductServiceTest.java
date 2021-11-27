@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Arrays;
 
@@ -23,25 +24,30 @@ class ProductServiceTest {
     @Mock
     private StringFilter stringFilter;
 
-    @Mock
+    @InjectMocks
     private ProductService productService;
 
     private Product product;
 
-    private ProductCriteria productCriteria;
+   // private ProductCriteria productCriteria;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
         product = new Product();
-        stringFilter = new StringFilter();
+        //stringFilter = new StringFilter();
         product.setName("Vestido blanco");
-        stringFilter.setContains("Vestido");
-        productCriteria.setDescription(stringFilter);
+        //stringFilter.setContains("Vestido");
+        //productCriteria.setDescription(stringFilter);
     }
 
     @Test
     void findByCriteria() {
-       when(productService.)
+       when(productRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(product));
+        System.out.println(when(productRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(product)));
+        assertNotNull(productService.findByCriteria(any(ProductCriteria.class)));
+        verify(productRepository,times(1)).findAll(any(Specification.class));
+        assertEquals(Arrays.asList(product),productService.findByCriteria(any(ProductCriteria.class)));
+        assertEquals(product.getName(),productService.findByCriteria(any(ProductCriteria.class)).get(0).getName());
     }
 }
