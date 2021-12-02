@@ -58,9 +58,18 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/product/list","/color/list","/section/list","brand/list").permitAll().and()
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/**",
+
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui/**",
+                        "/webjars/**",
+
+                        "/product/list",
+                        "/color/list"   ,
+                        "/section/list",
+                        "/brand/list"
+                        ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)

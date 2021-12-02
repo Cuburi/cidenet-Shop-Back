@@ -29,23 +29,27 @@ class ProductServiceTest {
 
     private Product product;
 
-   // private ProductCriteria productCriteria;
+    private ProductCriteria productCriteria;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
         product = new Product();
-        //stringFilter = new StringFilter();
         product.setName("Vestido blanco");
-        //stringFilter.setContains("Vestido");
-        //productCriteria.setDescription(stringFilter);
+        stringFilter = new StringFilter();
+        stringFilter.setContains("");
+        productCriteria = new ProductCriteria();
+        productCriteria.setColor(stringFilter);
+        productCriteria.setBrand(stringFilter);
+        productCriteria.setSection(stringFilter);
+        productCriteria.setDescription(stringFilter);
     }
 
     @Test
     void findByCriteria() {
        when(productRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(product));
         System.out.println(when(productRepository.findAll(any(Specification.class))).thenReturn(Arrays.asList(product)));
-        assertNotNull(productService.findByCriteria(any(ProductCriteria.class)));
+        assertNotNull(productService.findByCriteria(productCriteria));
         verify(productRepository,times(1)).findAll(any(Specification.class));
         assertEquals(Arrays.asList(product),productService.findByCriteria(any(ProductCriteria.class)));
         assertEquals(product.getName(),productService.findByCriteria(any(ProductCriteria.class)).get(0).getName());
