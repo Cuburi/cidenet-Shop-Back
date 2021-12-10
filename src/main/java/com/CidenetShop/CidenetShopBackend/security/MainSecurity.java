@@ -61,14 +61,20 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/**",
 
                         "/v2/api-docs",
+                        "/swagger-resources",
                         "/swagger-resources/**",
-                        "/swagger-ui/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/swagger-ui.html",
                         "/webjars/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
 
                         "/product/list",
                         "/color/list"   ,
                         "/section/list",
-                        "/brand/list"
+                        "/brand/list",
+                        "/sizeStock/list"
                         ).permitAll()
                 .anyRequest().authenticated()
                 .and()
