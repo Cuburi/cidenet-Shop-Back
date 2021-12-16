@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class DetailSize {
 
 
-
     @Id
     private Long idProduct;
     @Id

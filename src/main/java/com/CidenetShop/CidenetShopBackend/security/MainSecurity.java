@@ -74,7 +74,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                         "/color/list"   ,
                         "/section/list",
                         "/brand/list",
-                        "/sizeStock/list"
+                        "/sizeStock/**",
+                        "/sizeStock/update/**"
                         ).permitAll()
                 .anyRequest().authenticated()
                 .and()
