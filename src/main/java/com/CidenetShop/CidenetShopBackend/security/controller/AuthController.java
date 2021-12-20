@@ -50,8 +50,6 @@ public class AuthController {
     public ResponseEntity<?> newUser (@Valid @RequestBody NewUser newUser, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return new ResponseEntity(new Message("Campos mal puestos o email invalido"), HttpStatus.NON_AUTHORITATIVE_INFORMATION);
-        if(userService.existsByName(newUser.getName()))
-            return new ResponseEntity(new Message("Usuario ya existe"),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         if(userService.existsByEmail(newUser.getEmail()))
             return new ResponseEntity(new Message("Email ya existe"),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 

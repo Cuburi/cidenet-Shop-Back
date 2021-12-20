@@ -23,10 +23,6 @@ public class UserService {
         return userRepository.existsByEmail(emailUser);
     }
 
-    public boolean existsByName(String nameUser){
-        return userRepository.existsByName(nameUser);
-    }
-
     public void save(User user){
         userRepository.save(user);
     }

@@ -22,6 +22,8 @@ public class DetailSizeService {
         return detailSizeRepository.findByIdProduct(idProduct);
     }
 
+
+
     public boolean existsByIdProduct(Long idProduct){
         return detailSizeRepository.existsByIdProduct(idProduct);
     }
