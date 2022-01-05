@@ -8,7 +8,6 @@ import javax.persistence.*;
 @IdClass(DetailSizePkId.class)
 public class DetailSize {
 
-
     @Id
     private Long idProduct;
     @Id
@@ -25,8 +24,6 @@ public class DetailSize {
 
     @NonNull
     private int stock;
-
-
 
 
     public Long getIdProduct() {

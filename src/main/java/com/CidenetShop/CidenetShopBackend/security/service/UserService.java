@@ -19,8 +19,15 @@ public class UserService {
         return userRepository.findAllByEmail(emailUser);
     }
 
+    public Optional<User> getById(Long id){
+        return userRepository.findAllById(id);
+    }
     public boolean existsByEmail(String emailUser){
         return userRepository.existsByEmail(emailUser);
+    }
+
+    public boolean existsById(Long id){
+        return userRepository.existsById(id);
     }
 
     public void save(User user){

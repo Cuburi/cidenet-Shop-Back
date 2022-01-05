@@ -34,12 +34,13 @@ public class DetailSizeController {
         return new ResponseEntity(listSetailSize, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{idSize}/{idProduct}/{account}")
+    @PutMapping("/newStock/{idSize}/{idProduct}/{account}")
     public ResponseEntity<?> updateStock (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct ,@PathVariable("account")int value ){
         DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
         if(!detailSizeService.existsById(idDetailSize))
             return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
         DetailSize updateDetailSize = detailSizeService.getOne(idDetailSize).get();
+
         updateDetailSize.setStock(updateDetailSize.getStock()-value);
         detailSizeService.save(updateDetailSize);
         return  new ResponseEntity(new Message("Producto creado"),HttpStatus.OK);
@@ -47,7 +48,7 @@ public class DetailSizeController {
 
 
 
-    @GetMapping("/search/{idSize}/{idProduct}")
+    @GetMapping("/{idSize}/{idProduct}")
     public ResponseEntity<DetailSize> seachDetailSize (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct){
         DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
         if(!detailSizeService.existsById(idDetailSize))

@@ -1,5 +1,9 @@
 package com.CidenetShop.CidenetShopBackend.security.model;
 
+import com.CidenetShop.CidenetShopBackend.model.Sale;
+import com.CidenetShop.CidenetShopBackend.model.Section;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -32,6 +36,10 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Sale> sales = new HashSet<>();
 
     public User() {
     }
@@ -130,4 +138,6 @@ public class User {
     public void setRoles(@NonNull Set<Role> roles) {
         this.roles = roles;
     }
+
+
 }
