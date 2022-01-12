@@ -19,11 +19,18 @@ public class DetailSale {
     @JoinColumn(name="idSale",insertable = false, updatable = false)
     private Sale sale;
 
-    public DetailSale(Long idProduct, Long idSale, Product product, Sale sale) {
+    private int amount;
+
+    public DetailSale(Long idProduct, Long idSale, Product product, Sale sale, int amount) {
         this.idProduct = idProduct;
         this.idSale = idSale;
         this.product = product;
         this.sale = sale;
+        this.amount = amount;
+    }
+
+    public DetailSale() {
+
     }
 
     public Long getIdProduct() {
@@ -56,5 +63,13 @@ public class DetailSale {
 
     public void setSale(Sale sale) {
         this.sale = sale;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

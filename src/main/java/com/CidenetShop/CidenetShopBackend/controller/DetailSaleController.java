@@ -26,7 +26,7 @@ public class DetailSaleController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create (@RequestBody DetailSale detailSale){
-        DetailSale newDetailSale = new DetailSale(detailSale.getIdProduct(),detailSale.getIdSale(),detailSale.getProduct(),detailSale.getSale());
+        DetailSale newDetailSale = new DetailSale(detailSale.getIdProduct(),detailSale.getIdSale(),detailSale.getProduct(),detailSale.getSale(),detailSale.getAmount());
         detailSaleService.save(newDetailSale);
         return new ResponseEntity(new Message("Producto comprado"),HttpStatus.OK);
     }

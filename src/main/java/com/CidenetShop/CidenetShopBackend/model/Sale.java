@@ -22,15 +22,23 @@ public class Sale {
     @NonNull
     private Date date;
 
+    @NonNull
+    private String address;
+
     @ManyToOne(optional = false)
     @JsonIgnoreProperties("sale")
     private User user;
 
-    public Sale(long id, float totalPrice, @NonNull Date date, User user) {
+    public Sale(long id, float totalPrice, @NonNull Date date, @NonNull String address, User user) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.date = date;
+        this.address = address;
         this.user = user;
+    }
+
+    public Sale() {
+
     }
 
     public long getId() {
@@ -64,5 +72,14 @@ public class Sale {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @NonNull
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NonNull String address) {
+        this.address = address;
     }
 }

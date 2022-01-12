@@ -17,7 +17,8 @@ public class SaleService {
         return saleRepository.findAll();
     }
     
-    public void save (Sale sale){
+    public Sale save (Sale sale){
          saleRepository.save(sale);
+         return sale;
     }
 }

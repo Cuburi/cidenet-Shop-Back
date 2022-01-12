@@ -26,8 +26,8 @@ public class SaleController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create (@RequestBody Sale sale){
-        Sale newSale = new Sale(sale.getId(), sale.getTotalPrice(), sale.getDate(), sale.getUser());
-        saleService.save(newSale);
-        return new ResponseEntity(new Message("Compra creado"),HttpStatus.OK);
+        Sale newSale = new Sale(sale.getId(), sale.getTotalPrice(), sale.getDate(),sale.getAddress() ,sale.getUser());
+        Sale saleCreate = saleService.save(newSale);
+        return new ResponseEntity(saleCreate,HttpStatus.OK);
     }
 }

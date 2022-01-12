@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/sizeStock")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -35,15 +36,17 @@ public class DetailSizeController {
     }
 
     @PutMapping("/newStock/{idSize}/{idProduct}/{account}")
-    public ResponseEntity<?> updateStock (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct ,@PathVariable("account")int value ){
+    public ResponseEntity<?> updateStock (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct ,@PathVariable("account")int account ){
         DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
         if(!detailSizeService.existsById(idDetailSize))
             return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
         DetailSize updateDetailSize = detailSizeService.getOne(idDetailSize).get();
-
-        updateDetailSize.setStock(updateDetailSize.getStock()-value);
+        System.out.println(updateDetailSize.getStock()-account);
+        if(updateDetailSize.getStock()-account < 0)
+            return new ResponseEntity(new Message("Error en la compra"),HttpStatus.BAD_REQUEST);
+        updateDetailSize.setStock(updateDetailSize.getStock()-account);
         detailSizeService.save(updateDetailSize);
-        return  new ResponseEntity(new Message("Producto creado"),HttpStatus.OK);
+        return  new ResponseEntity(new Message("Stock modificado"),HttpStatus.OK);
     }
 
 

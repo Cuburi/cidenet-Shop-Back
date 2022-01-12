@@ -87,6 +87,15 @@ public class AuthController {
         return new ResponseEntity(jwtDto,HttpStatus.OK);
     }
 
+    @GetMapping("/userEmail/{email}")
+    public ResponseEntity<User> getByEmailUser (@PathVariable("email")String email){
+        if (!userService.existsByEmail(email)){
+            return new ResponseEntity(new Message("Usuario no existe"),HttpStatus.NOT_FOUND);
+        }
+        User user = userService.getByEmail(email).get();
+        return new ResponseEntity(user,HttpStatus.OK);
+    }
+
     @GetMapping("/user/{idUser}")
     public ResponseEntity<User> getByIdUser (@PathVariable("idUser")Long idUser){
         if (!userService.existsById(idUser)){
