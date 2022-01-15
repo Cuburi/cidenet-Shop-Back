@@ -22,6 +22,10 @@ public class UserService {
     public Optional<User> getById(Long id){
         return userRepository.findAllById(id);
     }
+
+    public Optional<User> getByTokenPassword (String tokenPassword){
+        return userRepository.findAllByTokenPassword(tokenPassword);
+    }
     public boolean existsByEmail(String emailUser){
         return userRepository.existsByEmail(emailUser);
     }

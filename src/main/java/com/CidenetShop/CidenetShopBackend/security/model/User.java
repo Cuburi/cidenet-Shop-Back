@@ -1,9 +1,7 @@
 package com.CidenetShop.CidenetShopBackend.security.model;
 
 import com.CidenetShop.CidenetShopBackend.model.Sale;
-import com.CidenetShop.CidenetShopBackend.model.Section;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -21,7 +19,7 @@ public class User {
     @Column(unique = true)
     private String email;
     @NonNull
-        private String password;
+    private String password;
     @NonNull
     private String typeId;
     @NonNull
@@ -30,6 +28,14 @@ public class User {
     private String address;
     @NonNull
     private String phone;
+
+    private String tokenPassword;
+
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Sale> sales = new HashSet<>();
+
     @NonNull
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -37,9 +43,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private Set<Sale> sales = new HashSet<>();
+
 
     public User() {
     }
@@ -57,6 +61,7 @@ public class User {
         this.document = document;
         this.address = address;
         this.phone = phone;
+
     }
 
     public Long getId() {
@@ -139,5 +144,19 @@ public class User {
         this.roles = roles;
     }
 
+    public String getTokenPassword() {
+        return tokenPassword;
+    }
 
+    public void setTokenPassword(String tokenPassword) {
+        this.tokenPassword = tokenPassword;
+    }
+
+    public Set<Sale> getSales() {
+        return sales;
+    }
+
+    public void setSales(Set<Sale> sales) {
+        this.sales = sales;
+    }
 }
