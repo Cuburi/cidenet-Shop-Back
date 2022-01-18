@@ -65,7 +65,7 @@ public class EmailController {
             return new ResponseEntity(new Message("Contraseñas no coinciden"), HttpStatus.BAD_REQUEST);
         Optional<User> userOpt = userService.getByTokenPassword(dto.getTokenPassword());
         if (!userOpt.isPresent())
-            return  new ResponseEntity(new Message("No existe ningun usuario con esas credenciales"),HttpStatus.NOT_FOUND);
+            return  new ResponseEntity(new Message("No existe ningun usuario con esas credenciales"),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
         User user = userOpt.get();
         String newPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(newPassword);
