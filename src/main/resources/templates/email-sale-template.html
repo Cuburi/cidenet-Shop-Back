@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Compra realizada</h2>
+<h3><span>Hola </span><span th:text="${userName}"></span></h3>
+<h3 >
+    <span>Wow! </span>  Muchas gracias por confiar en nosotros !
+</h3>
+<h3>
+    El presente en para confirmar la compra por el valor de: <b th:text="${totalPrice}"></b> $
+</h3>
+<h3>Tus productos son:  </h3>
+<tr th:each="product : ${products}">
+    <li th:text="${product}"></li>
+</tr>
+<h3>
+    Tus productos llegarán pronto y ya estas a la moda con nototros!!
+</h3>
+<p>
+    <img src="https://media-exp1.licdn.com/dms/image/C4E0BAQEXJN4wcsR9OA/company-logo_200_200/0/1606825839512?e=2159024400&v=beta&t=MflXYjrN_SlTE7zQNAKYgceWTyMi0uissgvzClts3Jg"  />
+</p>
+
+</body>
+</html>

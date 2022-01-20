@@ -20,4 +20,6 @@ public class ThymeleafTemplateConfig {
 
         return resolver;
     }
+
+
 }

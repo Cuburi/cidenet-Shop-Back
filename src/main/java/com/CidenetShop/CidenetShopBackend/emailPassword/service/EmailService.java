@@ -1,5 +1,6 @@
 package com.CidenetShop.CidenetShopBackend.emailPassword.service;
 
+import com.CidenetShop.CidenetShopBackend.emailPassword.dto.EmailSaleValuesDTO;
 import com.CidenetShop.CidenetShopBackend.emailPassword.dto.EmailValuesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,28 @@ public class EmailService {
             model.put("url", urlFront + dto.getTokenPassword());
             context.setVariables(model);
             String htmlText = templateEngine.process("email-template", context);
+            helper.setFrom(dto.getMailFrom());
+            helper.setTo(dto.getMailTo());
+            helper.setSubject(dto.getSubject());
+            helper.setText(htmlText, true);
+
+            javaMailSender.send(message);
+        }catch (MessagingException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendEmailSale(EmailSaleValuesDTO dto) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            Context context = new Context();
+            Map<String, Object> model = new HashMap<>();
+            model.put("userName", dto.getUserName());
+            model.put("totalPrice",dto.getTotalPrice());
+            model.put("products",dto.getProducts());
+            context.setVariables(model);
+            String htmlText = templateEngine.process("email-sale-template", context);
             helper.setFrom(dto.getMailFrom());
             helper.setTo(dto.getMailTo());
             helper.setSubject(dto.getSubject());

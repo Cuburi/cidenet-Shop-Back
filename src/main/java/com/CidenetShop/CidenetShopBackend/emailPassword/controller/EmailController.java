@@ -2,6 +2,7 @@ package com.CidenetShop.CidenetShopBackend.emailPassword.controller;
 
 import com.CidenetShop.CidenetShopBackend.dto.Message;
 import com.CidenetShop.CidenetShopBackend.emailPassword.dto.ChangePasswordDTO;
+import com.CidenetShop.CidenetShopBackend.emailPassword.dto.EmailSaleValuesDTO;
 import com.CidenetShop.CidenetShopBackend.emailPassword.dto.EmailValuesDTO;
 import com.CidenetShop.CidenetShopBackend.emailPassword.service.EmailService;
 import com.CidenetShop.CidenetShopBackend.security.model.User;
@@ -38,6 +39,8 @@ public class EmailController {
 
     private static final String subject = "Cambio de contraseña";
 
+    private static final String subjectSale = "Confirmación de compra";
+
     @PostMapping("/send-email")
     public ResponseEntity<?> sendEmailTemplate (@RequestBody EmailValuesDTO dto){
         Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
@@ -57,6 +60,21 @@ public class EmailController {
         return new ResponseEntity(new Message("Te hemos enviado un correo"), HttpStatus.OK);
     }
 
+    @PostMapping("/send-email-sale")
+    public ResponseEntity<?> sendEmailSale(@RequestBody EmailSaleValuesDTO dto){
+        Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
+        if (!userOpt.isPresent())
+            return  new ResponseEntity(new Message("No existe ningun usuario con ese correo"),HttpStatus.NOT_FOUND);
+        User user = userOpt.get();
+        dto.setMailFrom(mailFrom);
+        dto.setMailTo(user.getEmail());
+        dto.setSubject(subject);
+        dto.setUserName(user.getName());
+        dto.setSubject(subjectSale);
+        emailService.sendEmailSale(dto);
+        return new ResponseEntity(new Message("Te hemos enviado un correo"), HttpStatus.OK);
+    }
+
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult) {
         if(bindingResult.hasErrors())
@@ -73,6 +91,7 @@ public class EmailController {
         userService.save(user);
         return new ResponseEntity(new Message("Contraseña actualizada"),HttpStatus.OK);
     }
+
 
 
 }
