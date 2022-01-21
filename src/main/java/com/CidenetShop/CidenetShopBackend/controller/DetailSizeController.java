@@ -39,9 +39,8 @@ public class DetailSizeController {
     public ResponseEntity<?> updateStock (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct ,@PathVariable("account")int account ){
         DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
         if(!detailSizeService.existsById(idDetailSize))
-            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("No existe"), HttpStatus.NOT_FOUND);
         DetailSize updateDetailSize = detailSizeService.getOne(idDetailSize).get();
-        System.out.println(updateDetailSize.getStock()-account);
         if(updateDetailSize.getStock()-account < 0)
             return new ResponseEntity(new Message("Error en la compra"),HttpStatus.BAD_REQUEST);
         updateDetailSize.setStock(updateDetailSize.getStock()-account);

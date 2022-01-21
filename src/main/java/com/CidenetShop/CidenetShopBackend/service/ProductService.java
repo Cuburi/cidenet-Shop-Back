@@ -1,11 +1,7 @@
 package com.CidenetShop.CidenetShopBackend.service;
 
 import com.CidenetShop.CidenetShopBackend.criteria.ProductCriteria;
-import com.CidenetShop.CidenetShopBackend.model.Product;
-import com.CidenetShop.CidenetShopBackend.model.Brand_;
-import com.CidenetShop.CidenetShopBackend.model.Section_;
-import com.CidenetShop.CidenetShopBackend.model.Product_;
-import com.CidenetShop.CidenetShopBackend.model.Color_;
+import com.CidenetShop.CidenetShopBackend.model.*;
 import com.CidenetShop.CidenetShopBackend.repository.ProductRepository;
 import io.github.jhipster.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.criteria.JoinType;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -55,4 +54,30 @@ public class ProductService extends QueryService <Product> {
         }
         return specification;
     }
+
+    public List<Product> findAll (){
+        return productRepository.findAll();
+    }
+
+    public void findAllByTop (List<Product> products){
+        Collections.sort(products, new Comparator<Product>() {
+            @Override
+            public int compare(Product p1, Product p2) {
+                return new Integer(p2.getAccountVisit()).compareTo(new Integer(p1.getAccountVisit()));
+            }
+        });
+
+    }
+
+    public boolean existById (Long id){
+        return productRepository.existsById(id);
+    }
+    public Optional<Product> getOne(Long idProduct){
+        return productRepository.findById(idProduct);
+    }
+
+    public void  save(Product product){
+        productRepository.save(product);
+    }
+
 }

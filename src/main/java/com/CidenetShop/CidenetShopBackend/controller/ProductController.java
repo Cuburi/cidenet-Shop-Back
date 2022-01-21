@@ -1,6 +1,7 @@
 package com.CidenetShop.CidenetShopBackend.controller;
 
 import com.CidenetShop.CidenetShopBackend.criteria.ProductCriteria;
+import com.CidenetShop.CidenetShopBackend.dto.Message;
 import com.CidenetShop.CidenetShopBackend.dto.SearchDTO;
 import com.CidenetShop.CidenetShopBackend.model.Product;
 import com.CidenetShop.CidenetShopBackend.service.ProductService;
@@ -24,8 +25,8 @@ public class ProductController {
     @PostMapping("/list")
     public ResponseEntity<List<Product>> listProduct(@RequestBody SearchDTO searchDTO){
         ProductCriteria productCriteria = createCriteria(searchDTO);
-        List<Product> listProdcuto = productService.findByCriteria(productCriteria);
-        return new ResponseEntity<List<Product>>(listProdcuto, HttpStatus.OK);
+        List<Product> listProduct = productService.findByCriteria(productCriteria);
+        return new ResponseEntity<List<Product>>(listProduct, HttpStatus.OK);
     }
 
     private ProductCriteria createCriteria (SearchDTO searchDTO){
@@ -55,4 +56,28 @@ public class ProductController {
         return productCriteria;
     }
 
+    @GetMapping("/list-all")
+    public ResponseEntity<List<Product>> list (){
+        List<Product> products = productService.findAll();
+        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/list-order")
+    public ResponseEntity<List<Product>> listByOrder (){
+        List<Product> products = productService.findAll();
+        productService.findAllByTop(products);
+        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    }
+
+    @PutMapping("/accountVisit/{idProduct}")
+    public ResponseEntity<?> updateAccountVisit (@PathVariable ("idProduct") Long idProduct){
+        if(!productService.existById(idProduct)){
+            return new ResponseEntity(new Message("No existe producto con ese id"),HttpStatus.NOT_FOUND);
+        }
+        Product product = productService.getOne(idProduct).get();
+
+        product.setAccountVisit(product.getAccountVisit()+1);
+        productService.save(product);
+        return new ResponseEntity(new Message("Account modificado"),HttpStatus.OK);
+    }
 }
