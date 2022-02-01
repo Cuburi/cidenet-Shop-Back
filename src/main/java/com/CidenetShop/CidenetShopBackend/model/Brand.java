@@ -21,6 +21,15 @@ public class Brand {
     @JsonIgnore
     private Set<Product> products = new HashSet<>();
 
+    public Brand() {
+       
+    }
+
+    public Brand(long id, @NonNull String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

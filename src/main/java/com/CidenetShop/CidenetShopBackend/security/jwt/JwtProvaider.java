@@ -1,5 +1,6 @@
 package com.CidenetShop.CidenetShopBackend.security.jwt;
 
+import com.CidenetShop.CidenetShopBackend.security.dto.JwtDto;
 import com.CidenetShop.CidenetShopBackend.security.model.UserMain;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.Date;
 
 @Component
@@ -51,4 +53,6 @@ public class JwtProvaider {
         }
         return false;
     }
+
+
 }

@@ -11,7 +11,7 @@
     <span>Wow! </span>  Muchas gracias por confiar en nosotros !
 </h3>
 <h3>
-    El presente en para confirmar la compra por el valor de: <b th:text="${totalPrice}"></b> $
+    El presente en para confirmar la compra <span th:text="${idSale}"></span>  por el valor de: <b th:text="${totalPrice}"></b> $
 </h3>
 <h3>Tus productos son:  </h3>
 <tr th:each="product : ${products}">
