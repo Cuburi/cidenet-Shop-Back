@@ -45,6 +45,22 @@ public class Product {
     @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
     private Set<DetailSize> detailSizes = new HashSet<>();
 
+    public Product() {
+
+    }
+
+    public Product(long id, @NonNull String name, float salePrice, byte[] image, @NonNull String description, Brand brand, Color color, Section section, int accountVisit) {
+        this.id = id;
+        this.name = name;
+        this.salePrice = salePrice;
+        this.image = image;
+        this.description = description;
+        this.brand = brand;
+        this.color = color;
+        this.section = section;
+        this.accountVisit = accountVisit;
+    }
+
     private int accountVisit;
 
     public long getId() {

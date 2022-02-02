@@ -3,6 +3,7 @@ package com.CidenetShop.CidenetShopBackend.controller;
 import com.CidenetShop.CidenetShopBackend.criteria.ProductCriteria;
 import com.CidenetShop.CidenetShopBackend.dto.Message;
 import com.CidenetShop.CidenetShopBackend.dto.SearchDTO;
+import com.CidenetShop.CidenetShopBackend.model.Color;
 import com.CidenetShop.CidenetShopBackend.model.Product;
 import com.CidenetShop.CidenetShopBackend.service.ProductService;
 import io.github.jhipster.service.filter.StringFilter;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,5 +81,19 @@ public class ProductController {
         product.setAccountVisit(product.getAccountVisit()+1);
         productService.save(product);
         return new ResponseEntity(new Message("Account modificado"),HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/create")
+    public ResponseEntity<?> create (@RequestBody Product product){
+        if(StringUtils.isBlank(product.getName()))
+            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(product.getDescription()))
+            return new ResponseEntity(new Message("La descripción es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(productService.existsByName(product.getName()))
+            return new ResponseEntity(new Message("Este color ya existe"), HttpStatus.BAD_REQUEST);
+        Product newProduct = new Product(product.getId(),product.getName(),product.getSalePrice(),product.getImage(),product.getDescription(),product.getBrand(),product.getColor(),product.getSection(),product.getAccountVisit());
+        productService.save(newProduct);
+        return new ResponseEntity(new Message("Producto creado"), HttpStatus.OK);
     }
 }

@@ -23,6 +23,10 @@ public class ProductService extends QueryService <Product> {
     @Autowired
     ProductRepository productRepository;
 
+    public boolean existsByName(String name){
+        return productRepository.existsByName(name);
+    }
+
     public List<Product> findByCriteria(ProductCriteria productCriteria){
         final Specification<Product> specification = createSpecification(productCriteria);
         List<Product> products = productRepository.findAll(specification);
