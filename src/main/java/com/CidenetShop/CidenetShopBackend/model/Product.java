@@ -29,6 +29,9 @@ public class Product {
     @NonNull
     private String description;
 
+    @NonNull
+    private boolean active;
+
     @ManyToOne(optional = false)
     @JsonIgnoreProperties("products")
     private Brand brand;
@@ -59,6 +62,7 @@ public class Product {
         this.color = color;
         this.section = section;
         this.accountVisit = accountVisit;
+        this.active = false;
     }
 
     private int accountVisit;
@@ -112,6 +116,14 @@ public class Product {
 
     public void setDescription(@NonNull String descripcion) {
         this.description = descripcion;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Color getColor() {

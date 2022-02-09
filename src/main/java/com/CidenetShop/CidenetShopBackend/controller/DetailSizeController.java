@@ -3,10 +3,13 @@ package com.CidenetShop.CidenetShopBackend.controller;
 import com.CidenetShop.CidenetShopBackend.dto.Message;
 import com.CidenetShop.CidenetShopBackend.model.DetailSize;
 import com.CidenetShop.CidenetShopBackend.model.DetailSizePkId;
+import com.CidenetShop.CidenetShopBackend.model.Product;
 import com.CidenetShop.CidenetShopBackend.service.DetailSizeService;
+import com.CidenetShop.CidenetShopBackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,8 +21,12 @@ import java.util.List;
 @RequestMapping("/sizeStock")
 @CrossOrigin(origins = "http://localhost:3000")
 public class DetailSizeController {
+
     @Autowired
     DetailSizeService detailSizeService;
+
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/list")
     public ResponseEntity<List<DetailSize>> list(){
@@ -48,8 +55,6 @@ public class DetailSizeController {
         return  new ResponseEntity(new Message("Stock modificado"),HttpStatus.OK);
     }
 
-
-
     @GetMapping("/{idSize}/{idProduct}")
     public ResponseEntity<DetailSize> seachDetailSize (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct){
         DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
@@ -57,6 +62,25 @@ public class DetailSizeController {
             return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
         DetailSize detailSizeStock = detailSizeService.getOne(idDetailSize).get();
         return new ResponseEntity(detailSizeStock,HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/create")
+    public ResponseEntity<?> create (@RequestBody DetailSize detailSize){
+        DetailSizePkId idDetailSize = new DetailSizePkId(detailSize.getIdProduct(),detailSize.getIdSize());
+        if(detailSizeService.existsById(idDetailSize)){
+            DetailSize updateDetailSize = detailSizeService.getOne(idDetailSize).get();
+            updateDetailSize.setStock(updateDetailSize.getStock()+detailSize.getStock());
+            detailSizeService.save(updateDetailSize);
+            return new ResponseEntity(new Message("Stock actualizado"), HttpStatus.OK);
+        }
+        DetailSize newDetailSize = new DetailSize(detailSize.getIdProduct(),detailSize.getIdSize(),detailSize.getProduct(),detailSize.getSize(),detailSize.getStock());
+        detailSizeService.save(newDetailSize);
+        Product productActive = productService.getOne(detailSize.getIdProduct()).get();
+        productActive.setActive(true);
+        productService.save(productActive);
+        return new ResponseEntity(new Message("Stock creado"), HttpStatus.OK);
     }
 
 }

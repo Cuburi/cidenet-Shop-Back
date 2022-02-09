@@ -28,6 +28,14 @@ public class ProductController {
     public ResponseEntity<List<Product>> listProduct(@RequestBody SearchDTO searchDTO){
         ProductCriteria productCriteria = createCriteria(searchDTO);
         List<Product> listProduct = productService.findByCriteria(productCriteria);
+        productService.findAllByActive(listProduct);
+        return new ResponseEntity<List<Product>>(listProduct, HttpStatus.OK);
+    }
+
+    @PostMapping("/listInactive")
+    public ResponseEntity<List<Product>> listProductInactive(@RequestBody SearchDTO searchDTO){
+        ProductCriteria productCriteria = createCriteria(searchDTO);
+        List<Product> listProduct = productService.findByCriteria(productCriteria);
         return new ResponseEntity<List<Product>>(listProduct, HttpStatus.OK);
     }
 
@@ -67,9 +75,18 @@ public class ProductController {
     @GetMapping("/list-order")
     public ResponseEntity<List<Product>> listByOrder (){
         List<Product> products = productService.findAll();
+        productService.findAllByActive(products);
         productService.findAllByTop(products);
         return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
     }
+
+    @GetMapping("/list-orderAdmin")
+    public ResponseEntity<List<Product>> listByOrderAdmin (){
+        List<Product> products = productService.findAll();
+        productService.findAllByTop(products);
+        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    }
+
 
     @PutMapping("/accountVisit/{idProduct}")
     public ResponseEntity<?> updateAccountVisit (@PathVariable ("idProduct") Long idProduct){

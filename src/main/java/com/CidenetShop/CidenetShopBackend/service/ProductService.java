@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.criteria.JoinType;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -70,7 +67,10 @@ public class ProductService extends QueryService <Product> {
                 return new Integer(p2.getAccountVisit()).compareTo(new Integer(p1.getAccountVisit()));
             }
         });
+    }
 
+    public void findAllByActive (List<Product> products){
+        products.removeIf(product -> !product.isActive());
     }
 
     public boolean existById (Long id){

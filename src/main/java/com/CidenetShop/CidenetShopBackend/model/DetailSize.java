@@ -25,6 +25,17 @@ public class DetailSize {
     @NonNull
     private int stock;
 
+    public DetailSize() {
+
+    }
+
+    public DetailSize(Long idProduct, Long idSize, Product product, Size size, int stock) {
+        this.idProduct = idProduct;
+        this.idSize = idSize;
+        this.product = product;
+        this.size = size;
+        this.stock = stock;
+    }
 
     public Long getIdProduct() {
         return idProduct;
