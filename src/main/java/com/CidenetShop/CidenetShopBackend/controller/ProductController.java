@@ -3,7 +3,6 @@ package com.CidenetShop.CidenetShopBackend.controller;
 import com.CidenetShop.CidenetShopBackend.criteria.ProductCriteria;
 import com.CidenetShop.CidenetShopBackend.dto.Message;
 import com.CidenetShop.CidenetShopBackend.dto.SearchDTO;
-import com.CidenetShop.CidenetShopBackend.model.Color;
 import com.CidenetShop.CidenetShopBackend.model.Product;
 import com.CidenetShop.CidenetShopBackend.service.ProductService;
 import io.github.jhipster.service.filter.StringFilter;

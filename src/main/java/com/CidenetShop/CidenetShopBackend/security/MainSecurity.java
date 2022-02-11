@@ -70,6 +70,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                         "/v3/api-docs/**",
                         "/swagger-ui/**",
 
+
+
                         "/product/list",
                         "/product/list-all",
                         "/product/list-order",
@@ -79,6 +81,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                         "/brand/list",
                         "/sizeStock/stock/**",
                         "/sale/list",
+                        "/size/list",
                         "/detailSale/list",
                         "/email-password/**"
 
