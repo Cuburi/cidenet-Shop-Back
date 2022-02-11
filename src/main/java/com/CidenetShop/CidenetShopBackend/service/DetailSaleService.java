@@ -1,6 +1,7 @@
 package com.CidenetShop.CidenetShopBackend.service;
 
 import com.CidenetShop.CidenetShopBackend.model.DetailSale;
+import com.CidenetShop.CidenetShopBackend.model.DetailSizePkId;
 import com.CidenetShop.CidenetShopBackend.model.Sale;
 import com.CidenetShop.CidenetShopBackend.repository.DetailSaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +21,5 @@ public class DetailSaleService {
     public void save (DetailSale detailSale){
         detailSaleRepository.save(detailSale);
     }
+
 }

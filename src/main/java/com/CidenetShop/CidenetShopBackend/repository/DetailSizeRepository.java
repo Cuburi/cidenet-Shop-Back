@@ -13,4 +13,5 @@ public interface DetailSizeRepository extends JpaRepository<DetailSize, DetailSi
     Optional<List<DetailSize>> findByIdProduct(Long idProduct);
     boolean existsByIdProduct(Long idProductLong);
     boolean existsById(DetailSizePkId idDetailSize);
+
 }

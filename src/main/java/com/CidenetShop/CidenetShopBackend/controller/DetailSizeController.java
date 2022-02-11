@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class DetailSizeController {
     public ResponseEntity<List<DetailSize>> getByIdProduct (@PathVariable("idProduct") Long idProduct){
         if(!detailSizeService.existsByIdProduct(idProduct))
             return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
-        List<DetailSize> listSetailSize = detailSizeService.getByProductId(idProduct).get();
-        return new ResponseEntity(listSetailSize, HttpStatus.OK);
+        List<DetailSize> listDetailSize =    detailSizeService.getByProductId(idProduct).get();
+        return new ResponseEntity(listDetailSize, HttpStatus.OK);
     }
 
     @PutMapping("/newStock/{idSize}/{idProduct}/{account}")
@@ -81,6 +82,22 @@ public class DetailSizeController {
         productActive.setActive(true);
         productService.save(productActive);
         return new ResponseEntity(new Message("Stock creado"), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{idProduct}")
+    public ResponseEntity<?> deleteProduct (@PathVariable("idProduct") Long idProduct){
+        if(!detailSizeService.existsByIdProduct(idProduct))
+            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+        Product product = productService.getOne(idProduct).get();
+        product.setActive(false);
+        productService.save(product);
+        List<DetailSize> listDetailSize =    detailSizeService.getByProductId(idProduct).get();
+        for(DetailSize detailSize : listDetailSize){
+            DetailSizePkId idDetailSize = new DetailSizePkId(detailSize.getIdProduct(),detailSize.getIdSize());
+            detailSizeService.delete(idDetailSize);
+        }
+        return new ResponseEntity(new Message("Producto eliminado correctamente"), HttpStatus.OK);
     }
 
 }

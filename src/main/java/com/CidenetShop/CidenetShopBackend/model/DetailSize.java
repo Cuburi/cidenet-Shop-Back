@@ -12,13 +12,13 @@ public class DetailSize {
     private Long idProduct;
     @Id
     private Long idSize;
-    @ManyToOne(optional = false,cascade = CascadeType.REMOVE)
+    @ManyToOne(optional = false)
     @JoinColumn(name="idProduct",insertable = false, updatable = false)
     private Product product;
 
 
 
-    @ManyToOne (optional = false,cascade = CascadeType.REMOVE)
+    @ManyToOne (optional = false)
     @JoinColumn(name="idSize",insertable = false, updatable = false)
     private Size size;
 

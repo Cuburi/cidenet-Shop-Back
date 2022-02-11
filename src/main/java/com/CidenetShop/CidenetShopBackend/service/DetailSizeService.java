@@ -2,6 +2,7 @@ package com.CidenetShop.CidenetShopBackend.service;
 
 import com.CidenetShop.CidenetShopBackend.model.DetailSize;
 import com.CidenetShop.CidenetShopBackend.model.DetailSizePkId;
+import com.CidenetShop.CidenetShopBackend.model.Product;
 import com.CidenetShop.CidenetShopBackend.repository.DetailSizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +34,12 @@ public class DetailSizeService {
     public Optional<DetailSize> getOne(DetailSizePkId idDetailSize){
         return detailSizeRepository.findById(idDetailSize);
     }
-
     public void  save(DetailSize detailSize){
         detailSizeRepository.save(detailSize);
     }
+
+    public void delete(DetailSizePkId idDetailSize){
+        detailSizeRepository.deleteById(idDetailSize);
+    }
+
 }
