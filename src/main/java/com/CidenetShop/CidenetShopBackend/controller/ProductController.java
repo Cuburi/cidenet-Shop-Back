@@ -107,9 +107,41 @@ public class ProductController {
         if(StringUtils.isBlank(product.getDescription()))
             return new ResponseEntity(new Message("La descripción es obligatorio"), HttpStatus.BAD_REQUEST);
         if(productService.existsByName(product.getName()))
-            return new ResponseEntity(new Message("Este color ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Message("Este nombre ya existe"), HttpStatus.BAD_REQUEST);
+        if( product.getSalePrice()<0 )
+            return new ResponseEntity(new Message("el precio debe ser mayor que 0"), HttpStatus.BAD_REQUEST);
+
         Product newProduct = new Product(product.getId(),product.getName(),product.getSalePrice(),product.getImage(),product.getDescription(),product.getBrand(),product.getColor(),product.getSection(),product.getAccountVisit());
         productService.save(newProduct);
         return new ResponseEntity(new Message("Producto creado"), HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update/{idProduct}")
+    public ResponseEntity<?> update(@PathVariable("idProduct")Long idProduct, @RequestBody Product product){
+        if(!productService.existById(idProduct))
+            return new ResponseEntity(new Message("Producto ya  existe"), HttpStatus.BAD_REQUEST);
+        if(productService.existsByName(product.getName()) && productService.getByName(product.getName()).get().getId() != idProduct)
+            return new ResponseEntity(new Message("Ese producto ya existe"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(product.getName()))
+            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(product.getDescription()))
+            return new ResponseEntity(new Message("La descripción es obligatorio"), HttpStatus.BAD_REQUEST);
+        if( product.getSalePrice()<0 )
+            return new ResponseEntity(new Message("el precio debe ser mayor que 0"), HttpStatus.BAD_REQUEST);
+
+        Product upadteProduct = productService.getOne(idProduct).get();
+        upadteProduct.setName(product.getName());
+        upadteProduct.setSalePrice(product.getSalePrice());
+        upadteProduct.setName(product.getName());
+        upadteProduct.setImage(product.getImage());
+        upadteProduct.setDescription(product.getDescription());
+        upadteProduct.setBrand(product.getBrand());
+        upadteProduct.setColor(product.getColor());
+        upadteProduct.setSection(product.getSection());
+
+        productService.save(upadteProduct);
+        return new ResponseEntity(new Message("producto actualizado"), HttpStatus.OK);
     }
 }

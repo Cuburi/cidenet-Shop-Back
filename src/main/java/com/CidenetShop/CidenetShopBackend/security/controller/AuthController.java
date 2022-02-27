@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -75,7 +76,12 @@ public class AuthController {
     public ResponseEntity<JwtDto> login (@Valid @RequestBody LoginUser loginUser, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return new ResponseEntity(new Message("Campos mal puestos o email invalido"), HttpStatus.BAD_REQUEST);
-
+        Optional<User> userOpt = userService.getByEmail(loginUser.getEmail());
+        if (!userOpt.isPresent())
+            return  new ResponseEntity(new Message("No existe ningun usuario con esas credenciales"),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        User user = userOpt.get();
+        if(!user.isActive())
+            return new ResponseEntity(new Message("Cuenta inactiva"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
 

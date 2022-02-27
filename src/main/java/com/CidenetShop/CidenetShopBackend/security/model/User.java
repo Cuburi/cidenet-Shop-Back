@@ -28,8 +28,11 @@ public class User {
     private String address;
     @NonNull
     private String phone;
+    @NonNull
+    private boolean active;
 
     private String tokenPassword;
+    private String tokenActive;
 
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -61,7 +64,7 @@ public class User {
         this.document = document;
         this.address = address;
         this.phone = phone;
-
+        this.active = false;
     }
 
     public Long getId() {
@@ -158,5 +161,21 @@ public class User {
 
     public void setSales(Set<Sale> sales) {
         this.sales = sales;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getTokenActive() {
+        return tokenActive;
+    }
+
+    public void setTokenActive(String tokenActive) {
+        this.tokenActive = tokenActive;
     }
 }

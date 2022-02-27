@@ -20,6 +20,10 @@ public class ProductService extends QueryService <Product> {
     @Autowired
     ProductRepository productRepository;
 
+    public Optional<Product> getByName(String name){
+        return productRepository.findByName(name);
+    }
+
     public boolean existsByName(String name){
         return productRepository.existsByName(name);
     }

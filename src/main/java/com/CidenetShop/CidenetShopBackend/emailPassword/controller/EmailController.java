@@ -1,9 +1,7 @@
 package com.CidenetShop.CidenetShopBackend.emailPassword.controller;
 
 import com.CidenetShop.CidenetShopBackend.dto.Message;
-import com.CidenetShop.CidenetShopBackend.emailPassword.dto.ChangePasswordDTO;
-import com.CidenetShop.CidenetShopBackend.emailPassword.dto.EmailSaleValuesDTO;
-import com.CidenetShop.CidenetShopBackend.emailPassword.dto.EmailValuesDTO;
+import com.CidenetShop.CidenetShopBackend.emailPassword.dto.*;
 import com.CidenetShop.CidenetShopBackend.emailPassword.service.EmailService;
 import com.CidenetShop.CidenetShopBackend.security.model.User;
 import com.CidenetShop.CidenetShopBackend.security.service.UserService;
@@ -41,6 +39,58 @@ public class EmailController {
 
     private static final String subjectSale = "Confirmación de compra";
 
+    private static final String subjectActiveAccount = "Activación de cuenta";
+
+    @PostMapping("/send-email-sale")
+    public ResponseEntity<?> sendEmailSale(@RequestBody EmailSaleValuesDTO dto){
+        Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
+        if (!userOpt.isPresent())
+            return  new ResponseEntity(new Message("No existe ningun usuario con ese correo"),HttpStatus.NOT_FOUND);
+        User user = userOpt.get();
+        dto.setMailFrom(mailFrom);
+        dto.setMailTo(user.getEmail());
+        dto.setSubject(subject);
+        dto.setUserName(user.getName());
+        dto.setSubject(subjectSale);
+        emailService.sendEmailSale(dto);
+        return new ResponseEntity(new Message("Te hemos enviado un correo"), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/send-email-active")
+    public ResponseEntity<?> sendEmailActive (@RequestBody EmailActiveAccountDTO dto){
+        Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
+        if (!userOpt.isPresent())
+            return  new ResponseEntity(new Message("No existe ningun usuario con ese correo"),HttpStatus.NOT_FOUND);
+        User user = userOpt.get();
+        dto.setMailFrom(mailFrom);
+        dto.setMailTo(user.getEmail());
+        dto.setSubject(subjectActiveAccount);
+        dto.setUserName(user.getName());
+        UUID uuid = UUID.randomUUID();
+        String tokenActive = uuid.toString();
+        dto.setTokenActive(tokenActive);
+        user.setTokenActive(tokenActive);
+        userService.save(user);
+        emailService.sendEmailActiveAccount(dto);
+        return new ResponseEntity(new Message("Te hemos enviado un correo"), HttpStatus.OK);
+    }
+
+    @PostMapping("/active-account")
+    public ResponseEntity<?> changeActiveAccount(@Valid @RequestBody ActiveAccountDTO dto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Message("Campos incorrectos"), HttpStatus.BAD_REQUEST);
+        Optional<User> userOpt = userService.getByTokenActive(dto.getTokenActive());
+        if (!userOpt.isPresent())
+            return  new ResponseEntity(new Message("No existe ningun usuario con esas credenciales"),HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        User user = userOpt.get();
+        user.setActive(true);
+        user.setTokenActive(null);
+        userService.save(user);
+        return new ResponseEntity(new Message("Cuenta activada"),HttpStatus.OK);
+    }
+
+
     @PostMapping("/send-email")
     public ResponseEntity<?> sendEmailTemplate (@RequestBody EmailValuesDTO dto){
         Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
@@ -60,20 +110,7 @@ public class EmailController {
         return new ResponseEntity(new Message("Te hemos enviado un correo"), HttpStatus.OK);
     }
 
-    @PostMapping("/send-email-sale")
-    public ResponseEntity<?> sendEmailSale(@RequestBody EmailSaleValuesDTO dto){
-        Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
-        if (!userOpt.isPresent())
-            return  new ResponseEntity(new Message("No existe ningun usuario con ese correo"),HttpStatus.NOT_FOUND);
-        User user = userOpt.get();
-        dto.setMailFrom(mailFrom);
-        dto.setMailTo(user.getEmail());
-        dto.setSubject(subject);
-        dto.setUserName(user.getName());
-        dto.setSubject(subjectSale);
-        emailService.sendEmailSale(dto);
-        return new ResponseEntity(new Message("Te hemos enviado un correo"), HttpStatus.OK);
-    }
+
 
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult) {

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Confirmar cuenta</h2>
+<h3><span>Hola </span><span th:text="${userName}"></span></h3>
+<h4>Haz click en el siguiente enlace para confirmar tu cuenta</h4>
+<a th:href="@{${url}}"><button>Confirmar cuenta</button></a>
+<img src="https://media-exp1.licdn.com/dms/image/C4E0BAQEXJN4wcsR9OA/company-logo_200_200/0/1606825839512?e=2159024400&v=beta&t=MflXYjrN_SlTE7zQNAKYgceWTyMi0uissgvzClts3Jg"  />
+</body>
+</html>

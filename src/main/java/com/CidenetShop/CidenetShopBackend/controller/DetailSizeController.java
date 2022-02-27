@@ -38,7 +38,7 @@ public class DetailSizeController {
     @GetMapping("/stock/{idProduct}")
     public ResponseEntity<List<DetailSize>> getByIdProduct (@PathVariable("idProduct") Long idProduct){
         if(!detailSizeService.existsByIdProduct(idProduct))
-            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("no existe"), HttpStatus.BAD_REQUEST);
         List<DetailSize> listDetailSize =    detailSizeService.getByProductId(idProduct).get();
         return new ResponseEntity(listDetailSize, HttpStatus.OK);
     }
@@ -57,10 +57,10 @@ public class DetailSizeController {
     }
 
     @GetMapping("/{idSize}/{idProduct}")
-    public ResponseEntity<DetailSize> seachDetailSize (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct){
+    public ResponseEntity<?> seachDetailSize (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct){
         DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
         if(!detailSizeService.existsById(idDetailSize))
-            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Message("no existe"), HttpStatus.OK);
         DetailSize detailSizeStock = detailSizeService.getOne(idDetailSize).get();
         return new ResponseEntity(detailSizeStock,HttpStatus.OK);
     }
@@ -85,18 +85,30 @@ public class DetailSizeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping  ("/deleteStock/{idSize}/{idProduct}")
+    public ResponseEntity<DetailSize> deleteDetailSize (@PathVariable("idSize")Long idSize, @PathVariable("idProduct")Long idProduct){
+        DetailSizePkId idDetailSize = new DetailSizePkId(idProduct,idSize);
+        if(!detailSizeService.existsById(idDetailSize))
+            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+        detailSizeService.delete(idDetailSize);
+        return new ResponseEntity(new Message("Stock eliminado"),HttpStatus.OK);
+
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{idProduct}")
     public ResponseEntity<?> deleteProduct (@PathVariable("idProduct") Long idProduct){
-        if(!detailSizeService.existsByIdProduct(idProduct))
-            return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
         Product product = productService.getOne(idProduct).get();
-        product.setActive(false);
-        productService.save(product);
         List<DetailSize> listDetailSize =    detailSizeService.getByProductId(idProduct).get();
         for(DetailSize detailSize : listDetailSize){
             DetailSizePkId idDetailSize = new DetailSizePkId(detailSize.getIdProduct(),detailSize.getIdSize());
-            detailSizeService.delete(idDetailSize);
+            DetailSize detailSizeStock = detailSizeService.getOne(idDetailSize).get();
+            if(detailSizeStock.getStock() > 0){
+                return new ResponseEntity(new Message("no existe"), HttpStatus.NOT_FOUND);
+            }
         }
+        product.setActive(false);
+        productService.save(product);
         return new ResponseEntity(new Message("Producto eliminado correctamente"), HttpStatus.OK);
     }
 

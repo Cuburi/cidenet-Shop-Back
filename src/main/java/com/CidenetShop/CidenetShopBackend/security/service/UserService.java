@@ -26,6 +26,11 @@ public class UserService {
     public Optional<User> getByTokenPassword (String tokenPassword){
         return userRepository.findAllByTokenPassword(tokenPassword);
     }
+
+    public Optional<User> getByTokenActive (String tokenActive){
+        return userRepository.findAllByTokenActive(tokenActive);
+    }
+
     public boolean existsByEmail(String emailUser){
         return userRepository.existsByEmail(emailUser);
     }
